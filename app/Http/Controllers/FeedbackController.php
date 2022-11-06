@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Feedback;
+use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +19,8 @@ class FeedbackController extends Controller
     {
         return view('feedback.index', [
             'comments' => Comment::with('user')->latest()->get(),
-            'feedbacks' => Feedback::with('user')->latest()->get()
+            'feedbacks' => Feedback::with('user')->latest()->get(),
+            'votes' => Vote::with('user')->latest()->get()
         ]);
     }
 
@@ -60,7 +62,8 @@ class FeedbackController extends Controller
     {
         return view('feedback.show',[ 
             'feedback' => $feedback,
-            'comments' => Comment::with('user')->where('feedback_id', $feedback->id)->get()
+            'comments' => Comment::with('user')->where('feedback_id', $feedback->id)->get(),
+            
         ]);
     }
 

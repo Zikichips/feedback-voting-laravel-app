@@ -1,6 +1,49 @@
-@props(['comment', 'feedback'])
+@props(['comment', 'feedback', 'vote'])
 <div class="px-4">
-    {{ $feedback->votes }}
+    
+    {{-- Check if the user has voted on this feedback already and route to the appropriate controller method --}}
+    <?php 
+        $count = 0;
+      
+    ?>
+    @foreach ($vote as $vote_singular)
+        @if ($vote_singular->user_id == auth()->id())
+            <?php 
+                $count = $count + 1;
+                $vote_to_delete = $vote_singular;
+             ?>
+        @endif
+
+    @endforeach
+
+    @if ($count === 0)
+        <form action="{{ route('votes.store') }}" method="post">
+            @csrf
+        <input type="hidden" name="feedback_id" value="{{ $feedback->id }}"></input>
+       
+    @else
+        <form action="{{ route('votes.destroy', $vote_to_delete) }}" method="post">
+            @csrf
+            @method('delete')
+    @endif
+    
+            <button type="submit">
+    
+                <div>
+                     <svg  class="mr-1.5 h-5 w-5 flex-shrink-0 text-black-400"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm.53 5.47a.75.75 0 00-1.06 0l-3 3a.75.75 0 101.06 1.06l1.72-1.72v5.69a.75.75 0 001.5 0v-5.69l1.72 1.72a.75.75 0 101.06-1.06l-3-3z" clip-rule="evenodd" />
+                      </svg>
+                </div>
+    
+                <div class="pr-1">
+                    {{ $vote->count() }}
+                </div>  
+            </button>
+            </form> 
+    
+
+ <!-- Comment count -->
+
 </div>
 <div class="px-4 sm:px-0">
     <div class="flex justify-between">

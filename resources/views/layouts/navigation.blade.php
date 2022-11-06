@@ -6,7 +6,8 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="/">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
+                        <h1 class="text-3xl text-black-100">Zeek<span class="text-black-900">Back</span></h1>
+                        {{-- <x-application-logo class="block h-10 w-auto fill-current text-gray-600" /> --}}
                     </a>
                 </div>
 
@@ -18,6 +19,9 @@
                 </div> --}}
             </div>
 
+            @auth
+                
+            
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
@@ -34,7 +38,15 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        {{-- <x-dropdown-link :href="route('logout')"
+                                    {{-- onclick="event.preventDefault();
+                                                this.closest('form').submit();"> --}}
+                                {{-- {{ __('Settings') }}
+                            {{-- </x-dropdown-link> --}} 
                         <!-- Authentication -->
+                        <x-dropdown-link :href="route('settings.index')">
+                            Settings
+                        </x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
@@ -44,6 +56,7 @@
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
+                        
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -57,9 +70,20 @@
                     </svg>
                 </button>
             </div>
+
+            @endauth
+
+            @guest
+                <p class="items-center  text-gray-500 pt-4">
+                    <a href="/login"> Login</a>   
+                </p>    
+            @endguest
         </div>
     </div>
 
+    @auth
+        
+   
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
@@ -89,4 +113,8 @@
             </div>
         </div>
     </div>
+
+    @endauth
+
+    
 </nav>

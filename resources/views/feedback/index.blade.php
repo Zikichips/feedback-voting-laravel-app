@@ -18,10 +18,12 @@
 
                     @php
                         $comment = $comments->where('feedback_id', $feedback->id)->count();
+                        $vote = $votes->where('feedback_id', $feedback->id);
+
                     @endphp
 
                     <div class="flex flex-row mb-6">
-                            <x-suggestion-card :comment="$comment" :feedback="$feedback" />
+                            <x-suggestion-card :comment="$comment" :feedback="$feedback" :vote="$vote" />
                     </div>
                 @endforeach
 
